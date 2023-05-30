@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const asyncHandler = require('express-async-handler');
 
 const User = require('./models/User');
+const messageRouter = require('./routes/messageRouter');
+const userRouter = require('./routes/userRouter');
 
 const app = express();
 
@@ -54,14 +56,6 @@ passport.use(
   })
 );
 
-app.post(
-  'log-in',
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/log-in',
-  })
-);
-
 app.use(session({ secret: 'member', resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session);
@@ -69,6 +63,9 @@ app.use(passport.session);
 app.use('/', (req, res, next) => {
   res.render('index', { title: 'test' });
 });
+
+app.use('/users', userRouter);
+app.use('/messages', messageRouter);
 
 const port = process.env.PORT || 3000;
 app.listen(port);
