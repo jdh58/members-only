@@ -98,7 +98,7 @@ exports.getMember = (req, res, next) => {
 
 exports.postMember = [
   body('memberPassword').trim().escape(),
-  asyncHandler((req, res, next) => {
+  asyncHandler(async (req, res, next) => {
     if (req.body.memberPassword === process.env.MEMBER_PASSWORD) {
       // update the user to set member to true
     }

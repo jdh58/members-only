@@ -2,17 +2,18 @@ const express = require('express');
 const asyncHandler = require('express-async-handler');
 const Message = require('../models/Message');
 const { body, validationResult } = require('express-validator');
+const { findByIdAndRemove } = require('../models/User');
 
 const route = express.Router();
 
-exports.getIndex = asyncHandler((req, res, next) => {
-  const messages = Message.find().exec();
+exports.getIndex = asyncHandler(async (req, res, next) => {
+  const messages = await Message.find().exec();
 
   res.render('messageIndex', { title: 'All Messages', messages });
 });
 
-exports.getDetails = asyncHandler((req, res, next) => {
-  const message = Message.findById(req.params.id).populate('user').exec();
+exports.getDetails = asyncHandler(async (req, res, next) => {
+  const message = await Message.findById(req.params.id).populate('user').exec();
 
   res.render('messageDetails', {
     title: 'Message Details',
@@ -72,3 +73,28 @@ exports.postCreate = [
     await message.save();
   }),
 ];
+
+exports.getDelete = asyncHandler(async (req, res, next) => {
+  const message = await Message.findById(req.params.id).exec();
+
+  if (res.locals.currentUser.admin === false) {
+    // If the logged in user is not an admin, do not allow them to see this page.
+    res.render('messageDetails', { title: 'Message Details', message });
+  }
+
+  res.render('deleteMessageForm', { title: 'Delete a message', message });
+});
+
+exports.postDelete = asyncHandler(async (req, res, next) => {
+  const message = await Message.findById(req.params.id).exec();
+
+  if (res.locals.currentUser.admin === false) {
+    // If the logged in user is not an admin, do not allow them to delete this message.
+    // This is redundant, but a safeguard in case they somehow make a post request to this URL
+    res.render('messageDetails', { title: 'Message Details', message });
+  }
+
+  // Otherwise, let them delete the message and redirect to the message index
+  await findByIdAndRemove(req.params.id);
+  res.redirect('/messages');
+});
