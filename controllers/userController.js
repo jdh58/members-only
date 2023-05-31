@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/User');
 const Message = require('../models/Message');
+require('dotenv');
 
 const bcrypt = require('bcryptjs');
 
@@ -67,7 +68,8 @@ exports.postSignIn = [
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       username: req.body.username,
-      member: req.body.member === 'checked' ? true : false,
+      member: false,
+      admin: req.body.admin === 'checked' ? true : false,
     });
 
     bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
@@ -86,5 +88,18 @@ exports.postSignIn = [
       user.password = hashedPassword;
       await user.save();
     });
+  }),
+];
+
+exports.getMember = (req, res, next) => {
+  res.render('memberForm', { title: 'Member Sign-Up' });
+};
+
+exports.postMember = [
+  body('memberPassword').trim().escape(),
+  asyncHandler((req, res, next) => {
+    if (req.body.memberPassword === process.env.MEMBER_PASSWORD) {
+      // update the user to set member to true
+    }
   }),
 ];

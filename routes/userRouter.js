@@ -20,4 +20,10 @@ route.get('/sign-up', userController.getSignUp);
 // Post sign up form
 route.post('/sign-up', userController.postSignUp);
 
+// Get member signup page
+route.get('/member', userController.getMember);
+
+// Post member signup page
+route.post('/member', userController.postMember);
+
 module.exports = route;
