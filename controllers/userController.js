@@ -16,7 +16,7 @@ exports.getIndex = asyncHandler(async (req, res, next) => {
 exports.getDetails = asyncHandler(async (req, res, next) => {
   const [user, messages] = await Promise.all([
     await User.findById(req.params.id).exec(),
-    await Message.find({ userId: req.params.id }),
+    await Message.find({ user: req.params.id }),
   ]);
 
   res.render('userDetails', { title: `Details Page`, user, messages });
@@ -82,6 +82,7 @@ exports.postSignIn = [
         res.render('signUpForm', {
           title: 'Sign up',
           user,
+          errors: errors.errors,
         });
       }
       // No errors, save the user with the hashed password to the database
