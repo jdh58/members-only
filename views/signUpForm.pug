@@ -1,0 +1,21 @@
+extends layout 
+
+block content 
+
+  h1= title 
+
+  form(action="" method="POST") 
+    label(for="first_name") First Name:
+    input(type="text" id="first_name" name="first_name")
+    label(for="last_name") Last Name: 
+    input(type="text" id="last_name" name="last_name")
+    label(for="username") Username:  
+    input(type="text" id="username" name="username")
+    label(for="admin") Admin?
+    input(type="checkbox" id="admin" name="admin")
+
+  if errors 
+    for error in errors 
+      li= error.msg 
+
+    

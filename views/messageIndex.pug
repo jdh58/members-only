@@ -4,11 +4,16 @@ block content
 
   h1= title 
 
-  if messages.length > 0
+  if messages
     for message in messages 
       div.message 
+        if res.locals.currentUser.member
+          span.authorinfo 
+            p Author
+            a(href=user.url)= user.username
         a(href=message.url).message-title= message.title 
         span.message-text= message.text
+        p= message.timestamp
 
   else 
-    h2 There are no messages.
+    h2 There are no messages

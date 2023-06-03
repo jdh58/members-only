@@ -9,7 +9,7 @@ block content
     for user in users
       li.user 
         a(href=user.url)= user.username 
-        if user.admin && !user.member
+        if user.admin
           p.status.admin Admin 
         else if user.member 
           p.status.member Member 

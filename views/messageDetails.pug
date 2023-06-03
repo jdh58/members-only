@@ -1,0 +1,21 @@
+extends layout 
+
+block content 
+
+  h1= title 
+
+  if message
+    if res.locals.currentUser.member
+      span.authorinfo 
+        p Author
+        a(href=user.url)= user.username
+    div.message-details
+      h2= message.title 
+      p.text= message.text 
+      p.timestamp= message.timestamp
+
+  else 
+    h2 Invalid message id
+  
+  if res.locals.currentUser.admin 
+    a(href=message.url + "/delete") Delete Message 

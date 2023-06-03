@@ -31,11 +31,11 @@ exports.postLogIn = passport.authenticate('local', {
   failureRedirect: '/log-in',
 });
 
-exports.getSignIn = (req, res, next) => {
+exports.getSignUp = (req, res, next) => {
   res.render('signUpForm', { title: 'Sign up' });
 };
 
-exports.postSignIn = [
+exports.postSignUp = [
   body('first_name')
     .trim()
     .isLength({ min: 2, max: 50 })
@@ -100,7 +100,15 @@ exports.postMember = [
   body('memberPassword').trim().escape(),
   asyncHandler(async (req, res, next) => {
     if (req.body.memberPassword === process.env.MEMBER_PASSWORD) {
-      // update the user to set member to true
+      // Update the user to set member to true
+      await User.findByIdAndUpdate(req.user.id, { member: true });
+      res.redirect('/');
+    } else {
+      // Otherwise, re-render the form with the error showing
+      res.render('memberForm', {
+        title: 'Member Sign-Up',
+        error: 'Incorrect password',
+      });
     }
   }),
 ];

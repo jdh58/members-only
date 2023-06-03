@@ -1,0 +1,26 @@
+extends layout 
+
+block content 
+
+  h1= title 
+
+  span.username
+    h2= user.username
+
+    if user.member
+      p.status.member Member
+    else if user.admin 
+      p.status.admin Admin 
+
+  if res.locals.currentUser.admin 
+    span.realname 
+      p= user.first_name 
+      p= user.last_name
+
+
+
+  for message in messages 
+    div.message 
+        a(href=message.url).message-title= message.title 
+        span.message-text= message.text
+        p= message.timestamp

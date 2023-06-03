@@ -7,4 +7,6 @@ block content
   form(action="" method="POST")
     label(for="memberPassword") Enter the Member Password.
     input(type="text" name="memberPassword" id="memberPassword" placeholder="(hint: McDonald's)")
-    
+  
+  if error 
+    p.error= error
