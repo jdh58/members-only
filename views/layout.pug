@@ -4,24 +4,29 @@ html(lang="en")
     meta(charset="UTF-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(rel='stylesheet' href='/stylesheets/style.css')
     title= title
   body 
 
     header 
-      if res.local.currentUser
+      if locals.currentUser
         span
-          a(href="/users/log-out") 
+          a(href="/users/log-out") Log Out
       else
         span
-          a(href="/users/log-in") 
+          a(href="/users/log-in") Log In
         span
-          a(href="/users/sign-up") 
+          a(href="/users/sign-up") Sign Up
     nav 
       li
-        a(href="All Users") 
+        a(href="/users") All Users
       li
-        a(href="All Messages") 
-      li
-        a(href="Create a Message") 
-      li
-        a(href="Sign Up as Member") 
+        a(href="/messages") All Messages
+      if locals.currentUser
+        li
+          a(href="/messages/create") Create a Message
+        li  
+          a(href="/users/member") Become a Member 
+    
+    main
+      block content

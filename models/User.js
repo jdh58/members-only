@@ -5,13 +5,13 @@ const UserSchema = new Schema({
   first_name: { type: String, required: true, minLength: 2, maxLength: 50 },
   last_name: { type: String, required: true, minLength: 2, maxLength: 50 },
   username: { type: String, required: true, minLength: 3, maxLength: 50 },
-  password: { type: String, required: true, minLength: 8, maxLeegth: 100 },
+  password: { type: String, required: true, minLength: 8 },
   member: { type: Boolean, required: true },
   admin: { type: Boolean, required: true },
 });
 
 UserSchema.virtual('url').get(function () {
-  return `/user/${this._id}`;
+  return `/users/${this._id}`;
 });
 
 UserSchema.virtual('family_name').get(function () {

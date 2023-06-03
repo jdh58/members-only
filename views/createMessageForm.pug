@@ -1,0 +1,16 @@
+extends layout 
+
+block content 
+
+  h1= title 
+
+  form(action="" method="POST")
+    label(for="title") Title:
+    input(type="text" name="title" id="title")
+    label(for="text") Text:
+    textarea(cols="30" rows="10" name="text" id="text")
+    button(type="submit") Submit   
+
+  if errors 
+    for error in errors 
+      li= error.msg

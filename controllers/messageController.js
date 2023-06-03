@@ -4,12 +4,13 @@ const Message = require('../models/Message');
 const { body, validationResult } = require('express-validator');
 const { findByIdAndRemove } = require('../models/User');
 
-const route = express.Router();
-
 exports.getIndex = asyncHandler(async (req, res, next) => {
-  const messages = await Message.find().exec();
+  const messages = await Message.find().populate('user').exec();
 
-  res.render('messageIndex', { title: 'All Messages', messages });
+  res.render('messageIndex', {
+    title: 'All Messages',
+    messages,
+  });
 });
 
 exports.getDetails = asyncHandler(async (req, res, next) => {
@@ -55,7 +56,7 @@ exports.postCreate = [
 
     const errors = validationResult(req);
 
-    if (!user) {
+    if (!req.user) {
       // If the user does not exist (not logged in), re-render the form with that error.
       res.render('createMessageForm', {
         title: 'Create a new message',
@@ -71,30 +72,31 @@ exports.postCreate = [
     }
     // There were no errors, add this message to the database.
     await message.save();
+    res.redirect('/messages');
   }),
 ];
 
 exports.getDelete = asyncHandler(async (req, res, next) => {
   const message = await Message.findById(req.params.id).exec();
 
-  if (res.locals.currentUser.admin === false) {
+  if (req.user.admin === false) {
     // If the logged in user is not an admin, do not allow them to see this page.
     res.render('messageDetails', { title: 'Message Details', message });
   }
 
-  res.render('deleteMessageForm', { title: 'Delete a message', message });
+  res.render('messageDelete', { title: 'Delete a message', message });
 });
 
 exports.postDelete = asyncHandler(async (req, res, next) => {
   const message = await Message.findById(req.params.id).exec();
 
-  if (res.locals.currentUser.admin === false) {
+  if (req.user.admin === false) {
     // If the logged in user is not an admin, do not allow them to delete this message.
     // This is redundant, but a safeguard in case they somehow make a post request to this URL
     res.render('messageDetails', { title: 'Message Details', message });
   }
 
   // Otherwise, let them delete the message and redirect to the message index
-  await findByIdAndRemove(req.params.id);
+  await Message.findByIdAndRemove(req.params.id);
   res.redirect('/messages');
 });

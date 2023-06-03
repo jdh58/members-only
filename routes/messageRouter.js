@@ -10,7 +10,7 @@ route.get('/', messageController.getIndex);
 route.get('/create', messageController.getCreate);
 
 // Post message create form
-route.get('/create', messageController.postCreate);
+route.post('/create', messageController.postCreate);
 
 // Get message details page
 route.get('/:id', messageController.getDetails);

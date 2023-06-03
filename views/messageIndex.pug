@@ -7,10 +7,11 @@ block content
   if messages
     for message in messages 
       div.message 
-        if res.locals.currentUser.member
-          span.authorinfo 
-            p Author
-            a(href=user.url)= user.username
+        if locals.currentUser 
+          if locals.currentUser.member
+            span.authorinfo 
+              p Author
+              a(href=message.user.url)= message.user.username
         a(href=message.url).message-title= message.title 
         span.message-text= message.text
         p= message.timestamp

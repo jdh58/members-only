@@ -12,11 +12,11 @@ block content
     else if user.admin 
       p.status.admin Admin 
 
-  if res.locals.currentUser.admin 
-    span.realname 
-      p= user.first_name 
-      p= user.last_name
-
+  if locals.currentUser
+    if locals.currentUser.admin 
+      span.realname 
+        p= user.first_name 
+        p= user.last_name
 
 
   for message in messages 

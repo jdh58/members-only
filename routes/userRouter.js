@@ -1,12 +1,11 @@
 const express = require('express');
 const route = express.Router();
 
+const userController = require('../controllers/userController');
+
 // Get users index
 
 route.get('/', userController.getIndex);
-
-// Get user details page
-route.get('/:id', userController.getDetails);
 
 // Get log in form
 route.get('/log-in', userController.getLogIn);
@@ -28,5 +27,8 @@ route.post('/member', userController.postMember);
 
 // Get log out page
 route.get('/log-out', userController.getLogOut);
+
+// Get user details page
+route.get('/:id', userController.getDetails);
 
 module.exports = route;
