@@ -4,7 +4,7 @@ const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const mongoose = require('mongoose');
-const asyncHandler = require('express-async-handler');
+const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('./models/User');
 const messageRouter = require('./routes/messageRouter');

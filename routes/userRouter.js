@@ -26,4 +26,7 @@ route.get('/member', userController.getMember);
 // Post member signup page
 route.post('/member', userController.postMember);
 
+// Get log out page
+route.get('/log-out', userController.getLogOut);
+
 module.exports = route;
