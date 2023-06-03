@@ -1,0 +1,14 @@
+extends layout 
+
+block content 
+
+  h1= title 
+
+  if messages.length > 0
+    for message in messages 
+      div.message 
+        a(href=message.url).message-title= message.title 
+        span.message-text= message.text
+
+  else 
+    h2 There are no messages.

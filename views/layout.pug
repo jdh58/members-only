@@ -1,0 +1,29 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title= title
+  body 
+
+    header 
+      if res.local.currentUser
+        span
+          a(href="/users/log-out") 
+      else
+        span
+          a(href="/users/log-in") 
+        span
+          a(href="/users/sign-up") 
+    nav 
+      li
+        a(href="All Users") 
+      li
+        a(href="All Messages") 
+      li
+        a(href="") 
+      li
+        a(href="") 
+      li
+        a(href="") 
