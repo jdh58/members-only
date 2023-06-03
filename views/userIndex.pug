@@ -1,0 +1,18 @@
+extends layout 
+
+
+block content 
+
+  h1=title 
+
+  if user
+    for user in users
+      li.user 
+        a(href=user.url)= user.username 
+        if user.admin && !user.member
+          p.status.admin Admin 
+        else if user.member 
+          p.status.member Member 
+
+  else
+    h2 There are no users to display.
